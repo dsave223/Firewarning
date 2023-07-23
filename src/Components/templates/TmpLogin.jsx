@@ -4,7 +4,9 @@ import ImgFire from "../../assets/img/FireL.svg"
 import LogoFire from "../../assets/img/Logo2.svg"
 import styled from "styled-components";
 
-const Tl = styled.div``;
+const Tl = styled.div`
+background-color: white;
+`;
 
 function TmpLogin () {
     return(

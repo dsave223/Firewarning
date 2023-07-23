@@ -3,7 +3,9 @@ import ContentProfile from "../organisms/Profile/ContentProfile";
 import LogoFire from "../../assets/img/Logo2.svg"
 import styled from "styled-components";
 
-const Tp = styled.div``;
+const Tp = styled.div`
+background-color: white;
+`;
 
 function TmpProfile () {
     return(
