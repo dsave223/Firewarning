@@ -1,10 +1,21 @@
 import styled from "styled-components";
 
-const AtmFigure = styled.div``;
+const AtmFigure = styled.div`
+    height: 23vh;
+    width: 31%;
+    border-radius: 20px 0 0 20px;
+    background-color: #FE4444;
 
-function Figure ({}) {
+    ${props => props.$figureone &&`
+        height: 23vh;
+        width: 31%;
+       background-color: #FEC544; 
+    `}
+`;
+
+function Figure ({figureone}) {
     return(
-        <AtmFigure></AtmFigure>
+        <AtmFigure $figureone={figureone}></AtmFigure>
     )
 }
 

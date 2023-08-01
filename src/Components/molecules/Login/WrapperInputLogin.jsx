@@ -1,15 +1,19 @@
 import Input from "../../atoms/Input";
-import Button from "../../atoms/Button";
-import Title from "../../atoms/Title";
 import styled from "styled-components";
 
-const WI = styled.div ``;
+const WI = styled.div `
+display: flex;
+flex-direction: column;
+gap: 4vh;
+width: 100%;
+margin: 4% 0 11% 0;
+`;
 
-function WrapperInputLogin ({typeEml, typePss, nameEml, namePss, placeholderEml, placeholderPss}) {
+function WrapperInputLogin ({typeEml, typePss, nameEml, namePss, placeholderEml, placeholderPss, nptlogin}) {
     return(
         <WI>
-            <Input type={typeEml} name={nameEml} placeholder={placeholderEml} />
-            <Input type={typePss} name={namePss} placeholder={placeholderPss} />
+            <Input type={typeEml} name={nameEml} placeholder={placeholderEml} nptlogin={nptlogin}/>
+            <Input type={typePss} name={namePss} placeholder={placeholderPss} nptlogin={nptlogin}/>
         </WI>
     )
 } 

@@ -1,12 +1,20 @@
 import Button from "../atoms/Button";
 import styled from "styled-components";
 
-const Wbtn = styled.div ``;
+const Wbtn = styled.div `
+${props => props.$constentup &&`
+    display: flex;
+    width: 50%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+`}
+`;
 
-function DivisionButton ({onclick, text}) {
+function DivisionButton ({onClick, text, buttonlogin, update, constentup}) {
     return(
-        <Wbtn>
-            <Button onclick={onclick} text={text} />
+        <Wbtn $constentup={constentup}>
+            <Button onClick={onClick} text={text} buttonlogin={buttonlogin} update={update}/>
         </Wbtn>
 
     )

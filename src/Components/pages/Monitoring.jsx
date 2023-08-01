@@ -1,8 +1,18 @@
+import styled from "styled-components";
 import TmpMonitoring from "../templates/TmpMonitoring";
+
+const Mnt = styled.div`
+    margin-top: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 
 function Monitoring () {
     return(
-        <TmpMonitoring/>
+        <Mnt>
+            <TmpMonitoring/>
+        </Mnt>
     )
 }
 
