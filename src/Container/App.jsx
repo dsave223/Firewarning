@@ -7,7 +7,6 @@ import Monitoring from '../Components/pages/Monitoring';
 import Activity from '../Components/pages/Activity';
 import ActivityHistory from '../Components/pages/ActivityHistory';
 import Manual from '../Components/pages/Manual';
-import EditProfile from '../Components/pages/EditProfile';
 
 function App() {
 
@@ -22,7 +21,6 @@ function App() {
         <Route path="/activity" element={<Activity />} />
         <Route path="/activity-history" element={<ActivityHistory />} />
         <Route path="/manuel" element={<Manual />} />
-        <Route path="/edit-profile" element={<EditProfile/>} />
       </Routes>
     </BrowserRouter>
   );

@@ -42,7 +42,7 @@ export default BurgerButtom;
 const Burguer = styled.nav`
     .nav_links{
       border-radius: 50px 0px 0px 50px;
-      background-color: #fd292986 ;
+      background-color: #ffffff ;
       align-content: center;
       position: absolute;
       display: grid;
@@ -52,7 +52,6 @@ const Burguer = styled.nav`
       bottom: 0;
       top: 3.3vh;
       gap: 5vh;
-      
 
       transform: var(--state-menu);
       transition: .1s transform;
