@@ -1,11 +1,10 @@
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import ContentHeader from "../organisms/ContentHeader";
 import ContentRegistre from "../organisms/Registre/ContentRegistre";
 import ImagenUno from "../../assets/img/FireLogin.svg";
 import LogoFire from "../../assets/img/Logo2.svg"
 import styled from "styled-components";
-import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
 
 const Tr = styled.main`
 background-color: white;
@@ -26,48 +25,48 @@ function Header () {
 
 function Main () {
 
-  const navigate = useNavigate();
-    const formRef = useRef();
-    const socket = io(""); // Reemplaza con la URL de tu servidor Socket.io
+    const navigate = useNavigate();
+    const Form = useRef();
+    const endPoint = 'http://52.206.97.67:3000/event/create'
+
 
     const handlerClick = (e) => {
         e.preventDefault();
-        const formData = new FormData(formRef.current);
-        const email = formData.get("email");
-        const password = formData.get("password");
-
-        if (!userName || !email || !adress || !password) {
-        alert(
-            "Campos vacíos o algún campo falta por completar, revisa que todo esté en orden."
-        );
-        } else {
-        // Enviar los datos al servidor a través de Socket.io
-        socket.emit("registre", { userName, email, adress, password });
-        useEffect(() => {
-            // Escucha el evento 'loginSuccess' enviado por el servidor
-            socket.on("loginSuccess", () => {
-            console.log("Inicio de sesión exitoso");
-            alert("Inicio de sesión exitoso");
-            // Redireccionar a la página "Home"
-            navigate("/monitoring"); // Reemplaza '/home' con la ruta a tu página Home
-            });
+        const newForm = new FormData(Form.current);
     
-            // Escucha el evento 'loginError' enviado por el servidor
-            socket.on("loginError", (errorMessage) => {
-            console.log("Error al iniciar sesión:", errorMessage);
-            alert("Error al iniciar sesión. Por favor, verifica tus credenciales.");
-            });
+        if(newForm.get("name") === "" || newForm.get("email") === "" || newForm.get("phone") === "" || newForm.get("password") === ""){//el simbolo de pesos despues se nombra la variable
+            alert("campos vacios");
+        }else{
+            
+        const options = {
     
-            // Importante: Desconectar el socket cuando el componente se desmonte
-            return () => {
-            socket.disconnect();
-            };
-        }, [navigate]);
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({
+            name: newForm.get("name"),
+            email: newForm.get("email"),
+            phone: newForm.get("phone"),
+            password: newForm.get("password"),
+          }),
+        };
+        fetch(endPoint, options)
+          .then((response) => response.json())
+          .then((data) => {
+            alert(JSON.stringify(data));
+            if(data.status === true){
+                navigate("/");
+              }else{
+                alert("No se agrego")
+              }
+          });
         }
-    };
+      }
 
     return(
-        <ContentRegistre title='¡Registrate Ahora!' typeNm='text' nameNm='userName' placeholderNm='Nombre' typeEml='email' nameEml='email' placeholderEml='Correo Electronico' typeNp='tel' nameNp='numberPhone' placeholderNp='Numero de Telefono' typePss='password' namePss='password' placeholderPss='contraseña' text='Registrate Ahora' onClick={handlerClick} to={'/'} txt='¿Ya tienes Cuenta?' link='Inicia Sesion' srcIm={ImagenUno} altIm='Imagen Uno' ttllogin nptregistre buttonlogin/>
+        <ContentRegistre title='¡Registrate Ahora!' typeNm='text' nameNm='name' placeholderNm='Nombre' typeEml='email' nameEml='email' placeholderEml='Correo Electronico' typeNp='tel' nameNp='phone' placeholderNp='Numero de Telefono' typePss='password' namePss='password' placeholderPss='contraseña' text='Registrate Ahora' onClick={handlerClick} to={'/'} txt='¿Ya tienes Cuenta?' link='Inicia Sesion' srcIm={ImagenUno} altIm='Imagen Uno' ttllogin nptregistre buttonlogin/>
     )
 }
 

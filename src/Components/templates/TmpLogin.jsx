@@ -1,11 +1,11 @@
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 import ContentHeader from "../organisms/ContentHeader";
 import ContentLogin from "../organisms/Login/ContentLogin";
 import ImgFire from "../../assets/img/FireL.svg"
 import LogoFire from "../../assets/img/Logo2.svg"
 import styled from "styled-components";
-import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
 
 const Login = styled.div`
 background-color: white;
@@ -19,6 +19,7 @@ height: 90vh;
 gap: 95vh;
 `;
 
+const socket = io(""); // Reemplaza con la URL de tu servidor Socket.io
 
 function Header () {
     return (
@@ -31,44 +32,42 @@ function Header () {
 function Main () {
 
     const navigate = useNavigate();
-    const formRef = useRef();
-    const socket = io(""); // Reemplaza con la URL de tu servidor Socket.io
+    const Form = useRef();
+    const endPoint = 'http://52.206.97.67:3000/event/create'
+
 
     const handlerClick = (e) => {
         e.preventDefault();
-        const formData = new FormData(formRef.current);
-        const email = formData.get("email");
-        const password = formData.get("password");
-
-        if (!email || !password) {
-        alert(
-            "Campos vacíos o algún campo falta por completar, revisa que todo esté en orden."
-        );
-        } else {
-        // Enviar los datos al servidor a través de Socket.io
-        socket.emit("login", { email, password });
-        useEffect(() => {
-            // Escucha el evento 'loginSuccess' enviado por el servidor
-            socket.on("loginSuccess", () => {
-            console.log("Inicio de sesión exitoso");
-            alert("Inicio de sesión exitoso");
-            // Redireccionar a la página "Home"
-            navigate("/monitoring"); // Reemplaza '/home' con la ruta a tu página Home
-            });
+        const newForm = new FormData(Form.current);
     
-            // Escucha el evento 'loginError' enviado por el servidor
-            socket.on("loginError", (errorMessage) => {
-            console.log("Error al iniciar sesión:", errorMessage);
-            alert("Error al iniciar sesión. Por favor, verifica tus credenciales.");
-            });
+        if(newForm.get("email") === "" || newForm.get("password") === ""){//el simbolo de pesos despues se nombra la variable
+            alert("Campos vacios, o algun caracter invalido.");
+        }else{
+            
+        const options = {
     
-            // Importante: Desconectar el socket cuando el componente se desmonte
-            return () => {
-            socket.disconnect();
-            };
-        }, [navigate]);
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({
+            email: newForm.get("email"),
+            password: newForm.get("password"),
+          }),
+        };
+        fetch(endPoint, options)
+          .then((response) => response.json())
+          .then((data) => {
+            alert(JSON.stringify(data));
+            if(data.status === true){
+                navigate("/");
+              }else{
+                alert("No se agrego")
+              }
+          });
         }
-    };
+      }
   
     return(
         <>
